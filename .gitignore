@@ -1,0 +1,4 @@
+*
+!*.py
+!*.bash
+!.gitignore
