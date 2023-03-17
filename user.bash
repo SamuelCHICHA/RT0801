@@ -25,6 +25,11 @@ fi
 echo "User name: $username"
 echo "User id: $uid"
 # echo "Groups: $groups"
-echo "Group names:"
+echo "Groups:"
 echo "$group_names"
+echo -n "Where do you want to store the information ?"
+read -r path
+echo "User name: $username" > "$path"
+echo "User id: $uid" >> "$path"
+echo "Groups: $group_names" >> "$path"
 exit 0

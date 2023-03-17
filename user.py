@@ -18,16 +18,16 @@ if __name__ == "__main__":
         print(id_result.stdout.decode())
         exit(3)
     uid = match.group('uid')
-    print(f"Username: {username}")
+    print(f"User name: {username}")
     print(f"User id: {uid}")
     groups = re.findall(r"\((\w+)\)", match.group('groups'))
     print(f"Groups: {', '.join(groups)}")
     path = input("Where do you want to store the information ?")
     try:
         with open(path, "w") as file:
-            file.write(f"username {username}\n")
-            file.write(f"user id {uid}\n")
-            file.write(f"groups: {', '.join(groups)}\n")
+            file.write(f"User name: {username}\n")
+            file.write(f"User id: {uid}\n")
+            file.write(f"Groups: {', '.join(groups)}\n")
     except FileNotFoundError as fnfe:
         print(fnfe)
         exit(2)
