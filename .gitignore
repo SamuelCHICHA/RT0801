@@ -4,3 +4,5 @@
 !.gitignore
 !README.md
 !TP.pdf
+!Pipfile
+!Pipfile.lock
