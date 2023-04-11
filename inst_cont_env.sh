@@ -8,8 +8,31 @@ then
     exec sudo "$0" "$@"
 fi
 
-apt update
-apt install -y lxc
-apt install -y iproute2
+echo "Mise à jour des repos..."
+if apt update &>/dev/null
+then
+    echo "Repos mis à jour."
+else
+    >&2 echo "Erreur lors de la mise à jour des repos."
+fi
+
+echo "Installing LXC..."
+
+if apt install -y lxc &>/dev/null
+then
+    echo "LXC installed."
+else
+    >&2 echo "LXC could not be installed."
+fi
+
+echo "Installing IPRoute..."
+
+if apt install -y iproute2 &>/dev/null
+then
+    echo "IPRoute installed."
+else
+    >&2 echo "IPRoute could not be installed."
+fi
+
 sudo -k
 exit 0
