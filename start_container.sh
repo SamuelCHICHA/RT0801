@@ -5,6 +5,11 @@
 # désignera  l'ensemble  des  conteneurs  dont  le  nom  commence  par  cnt.  Vous  pourrez 
 # étendre à l'utilisation des expressions régulières pour désigner les conteneurs. 
 
+if [[ "$EUID" -ne 0 ]]
+then
+    exec sudo "$0" "$@"
+fi
+
 if [[ $# -lt 1 ]]
 then
     echo "You need to specify container names"
@@ -14,10 +19,13 @@ fi
 lxc_ls=()
 for name in "$@"
 do
-    lxc_ls+=($(sudo lxc-ls --filter=$name))
+    lxc_ls+=($(lxc-ls --filter=$name))
 done
 unique_lxc_ls=$(echo "$lxc_ls" | sort | uniq)
 for container_name in $unique_lxc_ls
 do
     lxc-start -n "$container_name"
 done
+
+sudo -k
+exit 0

@@ -5,20 +5,26 @@
 # désignera  l'ensemble  des  conteneurs  dont  le  nom  commence  par  cnt.  Vous  pourrez 
 # étendre à l'utilisation des expressions régulières pour désigner les conteneurs. 
 
+if [[ "$EUID" -ne 0 ]]
+then
+    exec sudo "$0" "$@"
+fi
+
 if [[ $# -lt 1 ]]
 then
     echo "You need to specify container names"
 fi
 
+lxc_ls=()
 for name in "$@"
 do
-    OLDIFS=$IFS
-    IFS=" "
-    lxc_ls=$(lxc-ls --running --filter=$name)
-    for container_name in $lxc_ls
-    do
-        # echo "$container_name"
-        lxc-stop -n "$container_name"
-    done
-    IFS=$OLDIFS
+    lxc_ls+=($(lxc-ls --running --filter=$name))
 done
+unique_lxc_ls=$(echo "$lxc_ls" | sort | uniq)
+for container_name in $unique_lxc_ls
+do
+    lxc-stop -n "$container_name"
+done
+
+sudo -k
+exit 0
