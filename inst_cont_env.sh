@@ -8,7 +8,7 @@ then
     exec sudo "$0" "$@"
 fi
 
-echo "Mise à jour des repos..."
+echo "Fetching latest versions..."
 if apt update &>/dev/null
 then
     echo "Repos mis à jour."

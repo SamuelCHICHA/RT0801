@@ -7,7 +7,22 @@ then
     exec sudo "$0" "$@"
 fi
 
-apt remove -y lxc
-apt remove -y iproute
+echo "Uninstalling LXC..."
+
+if apt remove -y lxc &>/dev/null
+then
+    echo "LXC Uninstalled."
+else
+    >&2 echo "Could not uninstall LXC."
+fi
+
+echo "Uninstalling IPRoute"
+
+if apt remove -y iproute &>/dev/null
+then
+    echo "IPRoute uninstalled."
+else
+    >&2 echo "Could not uninstall IPRoute."
+fi
 sudo -k
 exit 0
